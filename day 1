@@ -1,0 +1,59 @@
+Set a name to the machine and disable firewall
+
+1. hostnamectl set-hostname master.dns.com <-- to set a hostname
+2. to turnoff firewall: systemctl stop firewalld
+3. stop selinux
+4. Configure ssh
+
+---------------------
+
+installing and configuring puppet master
+
+1. rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7-noarch.rpm
+2. yum install -y puppetserver
+3. systemctl start puppetserver
+4. systemctl enable puppetserver
+5. vim /root/.bashrc
+    PATH=$PATH:/opt/puppetlabs/bin
+    export PATH
+6. vi /etc/puppetlabs/code/environments/production/manifests/site.pp
+    node 'workstation.dns.com
+
+
+-----------------------
+installing and configuring puppet agent
+
+1. rpm -ivh <url of puppet>
+2. yum install -y puppet-agent
+3. vim /etc/puppetlabs/puppet/
+
+-----------------------------
+puppet config file
+/etc/puppetlabs/puppet/puppet.conf
+
+the urls at the beginning of this file will help in configuration
+the path of the puppet.conf is different for puppet open source and puppet enterprise
+open source: /etc/puppet/puppet.conf
+---------------------------
+location of puppet code
+/etc/puppetlabs/code/environments/production/manifests
+
+command to print the config
+puppet config print
+
+---------------------------
+location of certificates
+/etc/puppetlabs/puppet/ssl/
+
+-----------------------------
+puppet resource command allows to edit the local machine's resource
+eg: puppet resource file /tmp/testfile content="test file"
+to edit the above manifest:
+puppet resource file /tmp/testfile --edit
+-----------------------------------
+puppet describe command can list info about the currently installed resource
+eg: puppet describe package
+
+
+----------------------------------
+puppet parser validate testfile.pp <-- command to check for syntax errors
