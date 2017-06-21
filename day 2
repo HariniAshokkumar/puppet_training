@@ -1,0 +1,22 @@
+node 'default'{}
+default contains all the other nodes that are not assigned jobs or simply not present in our manifest file
+(this also means that these nodes are signed by the master and are in the same environment) unsigned nodes are not considered
+
+--------------------------------
+notify is more like a handler. 
+
+-------------------------
+installing mcollective with puppet will let master intall directly on agents without having to write a pp file
+
+--------------------------------------
+if there is more than one pp file in a module, the naming convention is as follows,
+
+class classname::filename {}
+
+eg: 
+filename - abc.pp
+class - class users::abc{} <-- here users can also be the name of the module.
+
+in init.pp, we dont have to write the classname in the above format. just the class name will be enough
+order of execution of pp files is automatically correctly done by puppet itself
+------------------------------
