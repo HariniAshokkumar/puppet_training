@@ -1,20 +1,15 @@
-node 'default'{}
+define script_job(){
+        file {"/usr/local/bin/${name}":
+                source => "puppet:///modules/definition/${name}",
+                mode => '0755',
+        }
+        cron {"Run ${name}":
+                command => "usr/local/bin/${name}",
+        }
+}
+
 
 node 'client.dns.com'{
-	include web
-	$site_name = 'google'
-	$site_domain = 'google.com'
-	file { '/etc/httpd/conf.d/google.conf':
-		content => template('web/httpd.erb','web/httpd1.erb'),
-		notify => Service['httpd'],
-	}
-	file { '/var/www/google':
-		ensure => directory,
-		owner => root,
-		group => root,
-	}
-	file { '/var/www/google/index.html':
-		ensure => present,
-		content => 'Hello world!',
+	script_job { 'hi.sh':
 	}
 }
